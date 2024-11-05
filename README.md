@@ -1,9 +1,9 @@
 ## Assignment 7
 
 ### Explain what are stateless widgets and stateful widgets, and explain the difference between them.
-stateless widget: widget that dont change (static). Example: text, icon. RaisedButton
+stateless widget: widget that dont change (static). Example: Text, Icon, Container
 
-stateful widget: widget that can change its properties during run-time (dynamic). Example: Checkbox, radio button, slilder
+stateful widget: widget that can change its properties during run-time (dynamic). Example: Checkbox, Slider
 
 The difference between the two widgets are stateless widgets doesn't depend on any data change/behavior change, while stateful widget can be updated during runtime based on users action or data change. Stateless widgets do not have a state, they will be rendered once and won't update themselves, but will only be updated when external data changes, but stateful widgets have an internal state and can re-render if the input data changes or if widget’s state changes.
 
@@ -15,6 +15,7 @@ The difference between the two widgets are stateless widgets doesn't depend on a
 - Column: Lays out its children in a vertical array.
 - Row: Lays out its children in a horizontal array.
 - ElevatedButton: A material design button that elevates when pressed, used for interactive actions.
+- GridView: Displays items in a grid or table format. Used to display a menu of product items in a neat layout.
 - InkWell : Gives an effect/action to a clickable element.
 - SnackBar: Displays a brief message at the bottom of the screen.
 - Card: A material design card that can contain content and actions about an information.
@@ -23,17 +24,23 @@ The difference between the two widgets are stateless widgets doesn't depend on a
 
 ### What is the use-case for setState()? Explain the variable that can be affected by setState().
 
-The setState() function is used to update the state variables of a component or widget. When setState() is called, it triggers a re-render, updating the UI based on the new state values. It's essential when:
+The setState() function is used to update the state variables of a component or widget. When setState() is called, it triggers a re-render, updating the UI based on the new state values. It's important when:
 
-- Updating a counter, text, or any value displayed to the user after a user interaction.
-- Change the appearance of an element in response to user input, such as button press, form submission, or slider adjustment.
-- Fetch data asynchronously and update the view once the data is loaded.
+- Updating a counter, text, or any value displayed to the user after a user interaction
+- Change the appearance of an element in response to user input, such as button press, form submission, or slider adjustment
+- Fetch data asynchronously and update the view once the data is loaded
 
-Variables Affected by setState()
-Any state variable that represents the dynamic properties of a component or widget can be updated within setState(). These variables are typically:
+Variables that can be affected by setState():
 
-- State variables like counters, flags, or lists representing interactive UI elements.
-- UI-related properties such as colors, visibility toggles, or dimensions that change dynamically.
+- State variables like counters, flags, or lists representing interactive UI elements
+- UI-related properties such as colors, visibility toggles, or dimensions that change dynamically
+
+Examples:
+
+items: If the ItemHomepage list is changed (e.g. adding or removing items), we need to call setState() to update the GridView with the latest data
+npm, name, className: If there are changes to the user data (NPM, name, class), setState() allows these data updates to be displayed directly in the UI
+
+By using setstate(), the application will update the display according to the latest data
 
 ### Explain the difference between const and final keyword.
 
