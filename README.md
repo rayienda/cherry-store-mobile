@@ -1,3 +1,6 @@
+<details>
+<Summary><b>Assignment 7</b></Summary>
+
 ## Assignment 7
 
 ### Explain what are stateless widgets and stateful widgets, and explain the difference between them.
@@ -273,3 +276,100 @@ class ItemCard extends StatelessWidget {
 ```
 
 - Perform add, commit, and push to GitHub
+
+</details>
+
+<details>
+<Summary><b>Assignment 8</b></Summary>
+
+### What is the purpose of const in Flutter? Explain the advantages of using const in Flutter code. When should we use const, and when should it not be used?
+
+The const keyword is used to create compile-time constants. It indicates that the value of a variable or widget is constant and will not change. This allows the Flutter framework to optimize the performance and memory usage of the application.
+
+Advantages:
+- Performance Optimization:
+Compile-Time Constants: const widgets are created at compile time, which reduces the overhead of creating them at runtime.
+Reduced Rebuilds: Since const widgets are immutable, they do not need to be rebuilt when the widget tree is rebuilt, leading to improved performance.
+
+- Memory Efficiency:
+Single Instance: const widgets are canonicalized, meaning that identical const widgets share the same instance in memory, and it reduces memory usage.
+
+- Code Readability and Maintenance:
+Clear Intent: Using const makes it clear that a widget or value is immutable, improving code readability and maintainability.
+
+We should use const for: 
+- immutable widgets: for widgets that don't change during the use of the application
+- constant values: for values that are known at compile time and doesn't change
+- reusable widgets: for reusable widgets that are used multiple times with the same properties
+
+When we should not use const:
+We should avoid using const for dynamic values or widgets that rely on changing data, as they need to rebuild or update based on user interaction or app state changes.
+
+### Explain and compare the usage of Column and Row in Flutter. Provide example implementations of each layout widget!
+
+Column
+Purpose: Arranges its children vertically.
+Main Axis: Vertical (top to bottom).
+Cross Axis: Horizontal (left to right).
+
+Example:
+```
+import 'package:flutter/material.dart';
+
+Column(
+  mainAxisAlignment: MainAxisAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text('Line 1'),
+    Text('Line 2'),
+    ElevatedButton(
+      onPressed: () {},
+      child: Text('Click Me'),
+    ),
+  ],
+)
+```
+
+Row
+Purpose: Arranges its children horizontally.
+Main Axis: Horizontal (left to right).
+Cross Axis: Vertical (top to bottom).
+
+```
+import 'package:flutter/material.dart';
+
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceAround,
+  crossAxisAlignment: CrossAxisAlignment.center,
+  children: [
+    Icon(Icons.star),
+    Text('Hello'),
+    ElevatedButton(
+      onPressed: () {},
+      child: Text('Click Me'),
+    ),
+  ],
+)
+
+```
+### List the input elements you used on the form page in this assignment. Are there other Flutter input elements you didn’t use in this assignment? Explain!
+- TextFormField: for text input in forms
+- AlertDialog: to display pop-up message
+- ElevatedButton: used for creating a button that can be pressed
+
+Other input elements that's not used in this assignment:
+- DropdownButtonFormField: for selecting an option from a predefined list
+- Checkbox: for taking boolean input
+- Radio: for selecting of one option from a group of options
+- Switch: for toggling between on/off states
+- Slider:  for selecting a value from a continuous range
+- DatePicker: to select a date from a calendar
+- TimePicker: to select a time
+- RangeSlider: for selecting a range of values, ex: price range
+
+### How do you set the theme within a Flutter application to ensure consistency? Did you implement a theme in your application?
+Yes, I implement a theme for my application by setting up a primary theme within the main.dart file. I defined a theme by using the ThemeData constructor. I used a pink primary swatch and a deep red as the secondary color.
+
+### How do you manage navigation in a multi-page Flutter application?
+In a multi-page Flutter application, navigation is managed using the Navigator class. We can use methods like `Navigator.push` to navigate to a new page, `Navigator.pop` to go back to the previous page, and `Navigator.pushReplacement` to replace the current page with a new one.
+</details>

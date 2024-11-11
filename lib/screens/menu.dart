@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart'; 
+import 'package:cherry_store/widgets/left_drawer.dart';
+import 'package:cherry_store/widgets/product_card.dart';
 
 class MyHomePage extends StatelessWidget {
   final String npm = '2306172735'; // NPM
   final String name = 'Rayienda Hasmaradana Najlamahsa'; // Name
   final String className = 'PBD'; // Class
   final List<ItemHomepage> items = [
-         ItemHomepage("View Product", Icons.mood),
+         ItemHomepage("View Product", Icons.airplay),
          ItemHomepage("Add Product", Icons.add),
          ItemHomepage("Logout", Icons.logout),
   ];
@@ -17,6 +19,7 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       // AppBar is the top part of the page that displays the title.
       appBar: AppBar(
+        // The title of the application "Cherry Store" with white text and bold font.
         title: const Text(
           'Cherry Store',
           style: TextStyle(
@@ -26,7 +29,11 @@ class MyHomePage extends StatelessWidget {
         ),
         // The background color of the AppBar is obtained from the application theme color scheme.
         backgroundColor: Theme.of(context).colorScheme.primary,
+        // Set drawer icon color to white
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+      // Add drawer as a parameter value for the drawer attribute of the Scaffold widget
+      drawer: const LeftDrawer(),
       // Body of the page with paddings around it.
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -90,6 +97,7 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
+
 class InfoCard extends StatelessWidget {
   // Card information that displays the title and content.
 
@@ -100,6 +108,7 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Card(
       // Create a card box with a shadow.
       elevation: 2.0,
@@ -123,69 +132,3 @@ class InfoCard extends StatelessWidget {
   }
 }
 
-class ItemHomepage {
-    final String name;
-    final IconData icon;
-
-    ItemHomepage(this.name, this.icon);
-}
-
-class ItemCard extends StatelessWidget {
-  // Display the card with an icon and name.
-
-  final ItemHomepage item; 
-  
-  const ItemCard(this.item, {super.key}); 
-
-    @override
-  Widget build(BuildContext context) {
-    // Assign different colors based on the item name
-    Color getButtonColor() {
-      switch (item.name) {
-        case "View Product":
-          return Colors.lightBlue; // Color for "View Product" button
-        case "Add Product":
-          return Colors.lightGreen; // Color for "Add Product" button
-        case "Logout":
-          return Colors.red; // Color for "Logout" button
-        default:
-          return Theme.of(context).colorScheme.secondary;
-      }
-    }
-
-    return Material(
-      color: getButtonColor(),
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: () {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text("You have pressed the ${item.name} button!"))
-            );
-        },
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  item.icon,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                const Padding(padding: EdgeInsets.all(3)),
-                Text(
-                  item.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
