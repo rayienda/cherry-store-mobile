@@ -373,3 +373,7 @@ Yes, I implement a theme for my application by setting up a primary theme within
 ### How do you manage navigation in a multi-page Flutter application?
 In a multi-page Flutter application, navigation is managed using the Navigator class. We can use methods like `Navigator.push` to navigate to a new page, `Navigator.pop` to go back to the previous page, and `Navigator.pushReplacement` to replace the current page with a new one.
 </details>
+
+<details>
+<Summary><b>Assignment 9</b></Summary>
+</details>

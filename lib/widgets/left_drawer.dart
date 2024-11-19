@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cherry_store/screens/menu.dart';
 import 'package:cherry_store/screens/productentry_form.dart';
- 
+import 'package:cherry_store/screens/list_productentry.dart';
+
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
 
@@ -17,7 +18,7 @@ class LeftDrawer extends StatelessWidget {
             child: const Column(
               children: [
                 Text(
-                  'Mental Health Tracker',
+                  'Cherry Store',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 24,
@@ -27,7 +28,7 @@ class LeftDrawer extends StatelessWidget {
                 ),
                 Padding(padding: EdgeInsets.all(8)),
                 Text(
-                  "Track your mental health every day here!",
+                  "Shop at Cherry Store!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15.0,
@@ -53,7 +54,6 @@ class LeftDrawer extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.album),
               title: const Text('Add Product'),
-              // Redirection part to MoodEntryFormPage
               onTap: () {
                 Navigator.pushReplacement(
                     context,
@@ -62,6 +62,17 @@ class LeftDrawer extends StatelessWidget {
                     ));
               },
             ),
+            ListTile(
+            leading: const Icon(Icons.shopping_bag),
+            title: const Text('Product List'),
+            onTap: () {
+                // Route to the mood page
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ProductEntryPage()),
+                );
+            },
+        ),
         ],
       ),
     );

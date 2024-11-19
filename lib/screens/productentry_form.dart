@@ -1,5 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cherry_store/widgets/left_drawer.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:cherry_store/screens/menu.dart';
 
 class ProductEntryFormPage extends StatefulWidget {
   const ProductEntryFormPage({super.key});
@@ -12,17 +16,17 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
   final _formKey = GlobalKey<FormState>();
   String _name = "";
   String _description = "";
-  int _amount = 0;
-  String _color = "";
   int _price = 0;
-  
+  String _color = "";
+
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Add Product Entry',
+            'Add Your Product!',
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -40,7 +44,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                 child: TextFormField(
                   decoration: InputDecoration(
                     hintText: "Product Name",
-                    labelText: "Product Name",
+                    labelText: "Product",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -52,10 +56,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Insert Product Name.";
-                    }
-                    if (value.length < 3 || value.length > 50) {
-                      return "Product Name must be between 3 and 50 characters.";
+                      return "Product name cannot be empty!";
                     }
                     return null;
                   },
@@ -65,7 +66,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    hintText: "Description",
+                    hintText: "Enter description",
                     labelText: "Description",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -78,10 +79,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Fill in the description.";
-                    }
-                    if (value.length < 5 || value.length > 200) {
-                      return "Description must be between 5 and 200 characters.";
+                      return "Description cannot be empty!";
                     }
                     return null;
                   },
@@ -91,39 +89,13 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    hintText: "Amount",
-                    labelText: "Amount",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _amount = int.tryParse(value!) ?? 0;
-                    });
-                  },
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return "Insert Product Amount.";
-                    }
-                    final amount = int.tryParse(value);
-                    if (amount == null || amount < 0) {
-                      return "Amount must be a positive number.";
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: "Price",
+                    hintText: "Enter price",
                     labelText: "Price",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                   ),
+                  keyboardType: TextInputType.number,
                   onChanged: (String? value) {
                     setState(() {
                       _price = int.tryParse(value!) ?? 0;
@@ -131,11 +103,10 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Insert Price.";
+                      return "Price cannot be empty!";
                     }
-                    final price = int.tryParse(value);
-                    if (price == null || price <= 0) {
-                      return "Price must be a non-negative number.";
+                    if (int.tryParse(value) == null) {
+                      return "Price must be a number!";
                     }
                     return null;
                   },
@@ -145,7 +116,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    hintText: "Color",
+                    hintText: "Enter color",
                     labelText: "Color",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -158,10 +129,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Insert Product's Color.";
-                    }
-                    if (value.length < 3 || value.length > 20) {
-                      return "Color must be between 3 and 20 characters.";
+                      return "Color cannot be empty!";
                     }
                     return null;
                   },
@@ -174,39 +142,41 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all(
-                          Theme.of(context).colorScheme.primary),
+                        Theme.of(context).colorScheme.primary,
+                      ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Product is successfully saved'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Product Name: $_name'),
-                                    Text('Description: $_description'),
-                                    Text('Amount: $_amount'),
-                                    Text('Price: $_price'),
-                                    Text('Color: $_color'),
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    _formKey.currentState!.reset();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
+                        final response = await request.postJson(
+                          "http://localhost:8000/create-flutter/",
+                          jsonEncode(<String, String>{
+                            'name': _name,
+                            'description': _description,
+                            'price': _price.toString(),
+                            'color': _color,
+                          }),
                         );
+                        if (context.mounted) {
+                          if (response['status'] == 'success') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Product added successfully!"),
+                              ),
+                            );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyHomePage()),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    "Something went wrong, please try again."),
+                              ),
+                            );
+                          }
+                        }
                       }
                     },
                     child: const Text(
